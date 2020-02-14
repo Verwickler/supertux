@@ -368,7 +368,10 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
       return FORCE_MOVE;
     }
 
-    return collision_player(*player, hit);
+    collision_solid(hit);
+    return FORCE_MOVE;
+
+    //return collision_player(*player, hit);
   }
 
   auto bullet = dynamic_cast<Bullet*> (&other);
