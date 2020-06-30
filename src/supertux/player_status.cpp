@@ -34,6 +34,7 @@ PlayerStatus::PlayerStatus() :
   bonus(NO_BONUS),
   max_fire_bullets(0),
   max_ice_bullets(0),
+  max_storm_bullets(0),
   max_air_time(0),
   max_earth_time(0),
   worldmap_sprite("images/worldmap/common/tux.sprite"),
@@ -106,6 +107,9 @@ PlayerStatus::write(Writer& writer)
     case EARTH_BONUS:
       writer.write("bonus", "earthflower");
       break;
+    case STORM_BONUS:
+      writer.write("bonus", "stormflower");
+      break;
     default:
       log_warning << "Unknown bonus type." << std::endl;
       writer.write("bonus", "none");
@@ -114,6 +118,7 @@ PlayerStatus::write(Writer& writer)
   writer.write("iceflowers", max_ice_bullets);
   writer.write("airflowers", max_air_time);
   writer.write("earthflowers", max_earth_time);
+  writer.write("stormflowers", max_storm_bullets);
 
   writer.write("coins", coins);
 
@@ -140,6 +145,8 @@ PlayerStatus::read(const ReaderMapping& mapping)
       bonus = AIR_BONUS;
     } else if (bonusname == "earthflower") {
       bonus = EARTH_BONUS;
+    } else if (bonusname == "stormflower") {
+      bonus = STORM_BONUS;
     } else {
       log_warning << "Unknown bonus '" << bonusname << "' in savefile" << std::endl;
       bonus = NO_BONUS;
@@ -149,6 +156,7 @@ PlayerStatus::read(const ReaderMapping& mapping)
   mapping.get("iceflowers", max_ice_bullets);
   mapping.get("airflowers", max_air_time);
   mapping.get("earthflowers", max_earth_time);
+  mapping.get("stormflowers", max_storm_bullets);
 
   mapping.get("coins", coins);
 
@@ -172,6 +180,8 @@ std::string PlayerStatus::get_bonus_prefix() const
     return "air";
   case EARTH_BONUS:
     return "earth";
+  case STORM_BONUS:
+    return "storm";
   }
 }
 

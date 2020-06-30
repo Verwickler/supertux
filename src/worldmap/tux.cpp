@@ -81,6 +81,8 @@ Tux::get_action_prefix_for_bonus(const BonusType& bonus) const
     return "air";
   if (bonus == EARTH_BONUS)
     return "earth";
+  if (bonus == STORM_BONUS)
+    return "storm";
   if (bonus == NO_BONUS)
     return "small";
 

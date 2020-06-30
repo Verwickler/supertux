@@ -49,7 +49,13 @@ Flower::Flower(BonusType _type) :
     sprite = SpriteManager::current()->create("images/powerups/earthflower/earthflower.sprite");
     SoundManager::current()->preload("sounds/fire-flower.wav");
     lightsprite->set_color(Color(0.0f, 0.3f, 0.0f));
-  } else {
+  }
+  else if (type == STORM_BONUS) {
+    sprite = SpriteManager::current()->create("images/powerups/stormflower/stormflower.sprite");
+    SoundManager::current()->preload("sounds/fire-flower.wav");
+    lightsprite->set_color(Color(0.0f, 0.6f, 0.6f));
+  }
+  else {
     assert(false);
   }
 

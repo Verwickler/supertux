@@ -30,7 +30,7 @@ static const float BORDER_X = 10;
 static const float BORDER_Y = 10;
 
 enum BonusType {
-  NO_BONUS = 0, GROWUP_BONUS, FIRE_BONUS, ICE_BONUS, AIR_BONUS, EARTH_BONUS
+  NO_BONUS = 0, GROWUP_BONUS, FIRE_BONUS, ICE_BONUS, AIR_BONUS, EARTH_BONUS, STORM_BONUS
 };
 
 /** This class keeps player status between different game sessions (for
@@ -56,6 +56,7 @@ public:
   BonusType bonus;
   int max_fire_bullets; /**< maximum number of fire bullets in play */
   int max_ice_bullets; /**< maximum number of ice bullets in play */
+  int max_storm_bullets; /**< maximum number of storm bullets in play */
   int max_air_time; /**<determines maximum number of seconds player can float in air */
   int max_earth_time; /**< determines maximum number of seconds player can turn to stone */
 

@@ -233,6 +233,9 @@ private:
   SpritePtr m_lightsprite;
   SpritePtr m_powersprite;
 
+private:
+  int m_duck_count;
+
 public:
   Direction m_dir;
 

@@ -18,6 +18,7 @@
 
 #include "math/random.hpp"
 #include "object/camera.hpp"
+#include "object/explosion.hpp"
 #include "sprite/sprite.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "supertux/direction.hpp"
@@ -46,6 +47,11 @@ Bullet::Bullet(const Vector& pos, float xm, Direction dir, BonusType type_) :
  } else if (type == ICE_BONUS) {
     life_count = 10;
     sprite = SpriteManager::current()->create("images/objects/bullets/icebullet.sprite");
+  } else if (type == STORM_BONUS) {
+    sprite = SpriteManager::current()->create("images/objects/bullets/stormbullet.sprite");
+    life_count = 10;
+    lightsprite->set_blend(Blend::ADD);
+    lightsprite->set_color(Color(0.0f, 0.6f, 0.6f));
   } else {
     log_warning << "Bullet::Bullet called with unknown BonusType" << std::endl;
     life_count = 10;
@@ -61,9 +67,11 @@ Bullet::update(float dt_sec)
 {
   // cause fireball color to flicker randomly
   if (gameRandom.rand(5) != 0) {
+
     lightsprite->set_color(Color(0.3f + gameRandom.randf(10) / 100.0f,
-                                 0.1f + gameRandom.randf(20.0f) / 100.0f,
-                                 gameRandom.randf(10.0f) / 100.0f));
+                                  0.1f + gameRandom.randf(20.0f) / 100.0f,
+                                  gameRandom.randf(10.0f) / 100.0f));
+
   } else
     lightsprite->set_color(Color(0.3f, 0.1f, 0.0f));
   // remove bullet when it's offscreen
@@ -87,7 +95,7 @@ void
 Bullet::draw(DrawingContext& context)
 {
   sprite->draw(context.color(), get_pos(), LAYER_OBJECTS);
-  if (type == FIRE_BONUS){
+  if (type == FIRE_BONUS || type == STORM_BONUS){
     lightsprite->draw(context.light(), m_col.m_bbox.get_middle(), 0);
   }
 }
@@ -96,12 +104,23 @@ void
 Bullet::collision_solid(const CollisionHit& hit)
 {
   if (hit.top || hit.bottom) {
-    physic.set_velocity_y(-physic.get_velocity_y());
+    if(type == STORM_BONUS){
+      physic.set_velocity_y(-(physic.get_velocity_y() * 1.5f ));
+    } else {
+      physic.set_velocity_y(-physic.get_velocity_y());
+    }
+
     life_count--;
   } else if (hit.left || hit.right) {
-    if (type == ICE_BONUS) {
+    if (type == ICE_BONUS || type == STORM_BONUS) {
       physic.set_velocity_x(-physic.get_velocity_x());
       life_count--;
+      if(type == STORM_BONUS){
+        auto& explosion = Sector::get().add<Explosion>( get_bbox().get_middle(),
+          EXPLOSION_STRENGTH_NEAR, 8);
+
+          explosion.hurts(false);
+      }
     } else
       remove_me();
   }

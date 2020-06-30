@@ -257,6 +257,130 @@
          (fps 20.0)
          (loops 1)
          (mirror-action "ice-buttjump-right"))
+; Storm Tux
+       (action
+         (name "storm-walk-right")
+         (fps 15)
+         (hitbox 16 15 32 64)
+         (images "storm/hat/walk-0.png"
+                 "storm/hat/walk-1.png"
+                 "storm/hat/walk-0.png"
+                 "storm/hat/walk-3.png"))
+
+       (action
+         (name "storm-walk-left")
+         (fps 15)
+         (hitbox 16 15 32 64)
+         (mirror-action "storm-walk-right"))
+
+       (action
+         (name "storm-stand-right")
+         (hitbox 16 15 32 64)
+         (images "storm/hat/stand.png"))
+
+       (action
+         (name "storm-stand-left")
+         (hitbox 16 15 32 64)
+         (mirror-action "storm-stand-right"))
+
+       (action
+         (name "storm-jump-right")
+         (hitbox 16 15 32 64)
+         (images "storm/hat/stand.png"))
+
+       (action
+         (name "storm-jump-left")
+         (hitbox 16 15 32 64)
+         (mirror-action "storm-jump-right"))
+
+       (action
+         (name "storm-skid-right")
+         (hitbox 16 15 32 64)
+         (images "storm/hat/skid.png"))
+
+       (action
+         (name "storm-skid-left")
+         (hitbox 16 15 32 64)
+         (mirror-action "storm-skid-right"))
+
+       (action
+         (name "storm-kick-right")
+         (hitbox 16 15 32 64)
+         (images "storm/hat/stand.png"))
+
+       (action
+         (name "storm-kick-left")
+         (hitbox 16 15 32 64)
+         (mirror-action "storm-kick-right"))
+
+       (action
+         (name "storm-idle-right")
+         (hitbox 16 15 32 64)
+         (images "storm/hat/stand.png"))
+
+       (action
+         (name "storm-idle-left")
+         (hitbox 16 15 32 64)
+         (mirror-action "storm-idle-right"))
+
+       (action
+         (name "storm-climbing-right")
+         (hitbox 9 14 25 64)
+         (fps 15.0)
+         (images "storm/hat/climb-0.png"
+                 "storm/hat/climb-0.png"
+                 "storm/hat/climb-0.png"
+                 "storm/hat/climb-0.png"
+                 "storm/hat/climb-1.png"
+                 "storm/hat/climb-1.png"
+                 "storm/hat/climb-1.png"
+                 "storm/hat/climb-1.png"))
+
+       (action
+         (name "storm-climbing-left")
+         (hitbox 9 14 25 64)
+         (fps 15.0)
+         (mirror-action "storm-climbing-right"))
+
+       (action
+         (name "storm-duck-right")
+         (hitbox 16 45 32 32)
+         (images "storm/hat/duck.png"))
+
+       (action
+         (name "storm-duck-left")
+         (hitbox 16 45 32 32)
+         (mirror-action "storm-duck-right"))
+
+       (action
+         (name "storm-backflip-right")
+         (hitbox 16 37 32 32)
+         (images "storm/hat/backflip.png"))
+
+       (action
+         (name "storm-backflip-left")
+         (hitbox 16 37 32 32)
+         (mirror-action "storm-backflip-right"))
+
+       (action
+         (name "storm-buttjump-right")
+         (hitbox 16 15 32 64)
+         (fps 20.0)
+         (loops 1)
+         (images "storm/hat/buttjump-0.png"
+                 "storm/hat/buttjump-1.png"
+                 "storm/hat/buttjump-2.png"
+                 "storm/hat/buttjump-3.png"
+                 "storm/hat/buttjump-4.png"
+                 "storm/hat/buttjump-5.png"
+                 "storm/hat/buttjump-6.png"))
+
+       (action
+         (name "storm-buttjump-left")
+         (hitbox 16 15 32 64)
+         (fps 20.0)
+         (loops 1)
+         (mirror-action "storm-buttjump-right"))
 
 ; Air Tux
        (action
@@ -515,7 +639,7 @@
          (fps 20.0)
          (loops 1)
          (mirror-action "earth-buttjump-right"))
-        
+
 ; Santa Tux
        (action
          (name "santa-walk-right")

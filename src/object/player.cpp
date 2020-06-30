@@ -131,6 +131,7 @@ Player::Player(PlayerStatus& player_status, const std::string& name_) :
   m_scripting_controller(new CodeController()),
   m_player_status(player_status),
   m_duck(false),
+  m_duck_count(0),
   m_dead(false),
   m_dying(false),
   m_winning(false),
@@ -593,6 +594,28 @@ void
 Player::do_duck() {
   if (m_duck)
     return;
+
+  m_duck_count = m_duck_count + 1;
+
+  if(m_duck_count == 3){
+    m_duck_count = 0;
+    if(m_player_status.bonus == NO_BONUS ){
+      add_bonus(GROWUP_BONUS, true);
+    } else {
+      if(m_player_status.bonus == GROWUP_BONUS){
+        add_bonus(FIRE_BONUS, true);
+      }else if(m_player_status.bonus == FIRE_BONUS){
+        add_bonus(ICE_BONUS, true);
+      }else if(m_player_status.bonus == ICE_BONUS){
+        add_bonus(STORM_BONUS, true);
+      }else if(m_player_status.bonus == STORM_BONUS){
+        add_bonus(AIR_BONUS, true);
+      }else if(m_player_status.bonus == AIR_BONUS){
+        add_bonus(FIRE_BONUS, true);
+      }
+    }
+  }
+
   if (!is_big())
     return;
 
@@ -652,14 +675,14 @@ Player::do_backflip() {
 
 void
 Player::do_jump(float yspeed) {
-  if (!on_ground())
+  if (!on_ground() && m_player_status.bonus != STORM_BONUS )
     return;
 
   m_physic.set_velocity_y(yspeed);
   //bbox.move(Vector(0, -1));
   m_jumping = true;
   m_on_ground_flag = false;
-  m_can_jump = false;
+  //m_can_jump = false;
 
   // play sound
   if (is_big()) {
@@ -694,7 +717,9 @@ Player::handle_vertical_input()
 {
   // Press jump key
   if (m_controller->pressed(Control::JUMP)) m_jump_button_timer.start(JUMP_GRACE_TIME);
-  if (m_controller->hold(Control::JUMP) && m_jump_button_timer.started() && m_can_jump) {
+  if (m_controller->hold(Control::JUMP) && m_jump_button_timer.started()
+      && m_can_jump
+       ) {
     m_jump_button_timer.stop();
     if (m_duck) {
       // when running, only jump a little bit; else do a backflip
@@ -818,11 +843,13 @@ Player::handle_input()
 
   /* Shoot! */
   auto active_bullets = Sector::get().get_object_count<Bullet>();
-  if (m_controller->pressed(Control::ACTION) && (m_player_status.bonus == FIRE_BONUS || m_player_status.bonus == ICE_BONUS)) {
+  if (m_controller->pressed(Control::ACTION) && (m_player_status.bonus == FIRE_BONUS || m_player_status.bonus == ICE_BONUS || m_player_status.bonus == STORM_BONUS)) {
     if ((m_player_status.bonus == FIRE_BONUS &&
       active_bullets < m_player_status.max_fire_bullets) ||
       (m_player_status.bonus == ICE_BONUS &&
-      active_bullets < m_player_status.max_ice_bullets))
+      active_bullets < m_player_status.max_ice_bullets) ||
+      (m_player_status.bonus == STORM_BONUS &&
+      active_bullets < m_player_status.max_storm_bullets))
     {
       Vector pos = get_pos() + ((m_dir == Direction::LEFT)? Vector(0, m_col.m_bbox.get_height()/2) : Vector(32, m_col.m_bbox.get_height()/2));
       Sector::get().add<Bullet>(pos, m_physic.get_velocity_x(), m_dir, m_player_status.bonus);
@@ -1016,6 +1043,8 @@ Player::string_to_bonus(const std::string& bonus) const {
     type = AIR_BONUS;
   } else if (bonus == "earthflower") {
     type = EARTH_BONUS;
+  } else if (bonus == "stormflower") {
+    type = STORM_BONUS;
   } else if (bonus == "none") {
     type = NO_BONUS;
   } else {
@@ -1111,6 +1140,10 @@ Player::set_bonus(BonusType type, bool animate)
       // visually lose hard-hat
       particle_name = "earthtux-hardhat";
     }
+    if ((m_player_status.bonus == STORM_BONUS) && (animate)) {
+      // visually lose cap
+      particle_name = "stormtux-helmet";
+    }
     if (!particle_name.empty() && animate) {
       Sector::get().add<SpriteParticle>("images/objects/particles/" + particle_name + ".sprite",
                                              action, ppos, ANCHOR_TOP, pspeed, paccel, LAYER_OBJECTS - 1);
@@ -1119,11 +1152,13 @@ Player::set_bonus(BonusType type, bool animate)
 
     m_player_status.max_fire_bullets = 0;
     m_player_status.max_ice_bullets = 0;
+    m_player_status.max_storm_bullets = 0;
     m_player_status.max_air_time = 0;
     m_player_status.max_earth_time = 0;
   }
   if (type == FIRE_BONUS) m_player_status.max_fire_bullets++;
   if (type == ICE_BONUS) m_player_status.max_ice_bullets++;
+  if (type == STORM_BONUS) m_player_status.max_storm_bullets++;
   if (type == AIR_BONUS) m_player_status.max_air_time++;
   if (type == EARTH_BONUS) m_player_status.max_earth_time++;
 
@@ -1185,6 +1220,8 @@ Player::draw(DrawingContext& context)
       sa_prefix = "fire";
   else if (m_player_status.bonus == ICE_BONUS)
     sa_prefix = "ice";
+  else if (m_player_status.bonus == STORM_BONUS)
+    sa_prefix = "storm";
   else if (m_player_status.bonus == AIR_BONUS)
     sa_prefix = "air";
   else if (m_player_status.bonus == EARTH_BONUS)

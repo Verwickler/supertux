@@ -22,6 +22,7 @@
 #include "math/random.hpp"
 #include "object/bullet.hpp"
 #include "object/camera.hpp"
+#include "object/explosion.hpp"
 #include "object/player.hpp"
 #include "object/portable.hpp"
 #include "object/sprite_particle.hpp"
@@ -476,6 +477,16 @@ BadGuy::collision_bullet(Bullet& bullet, const CollisionHit& hit)
   else if (bullet.get_type() == ICE_BONUS && is_freezable()) {
     // ice bullets freeze freezable badguys
     freeze();
+    bullet.remove_me();
+    return ABORT_MOVE;
+  }
+  else if (bullet.get_type() == STORM_BONUS) {
+    // storm bullets explode on collision with badguys, but don't hurts or kill
+    auto& explosion = Sector::get().add<Explosion>( bullet.get_bbox().get_middle(),
+      EXPLOSION_STRENGTH_NEAR, 8);
+
+    explosion.hurts(false);
+
     bullet.remove_me();
     return ABORT_MOVE;
   }

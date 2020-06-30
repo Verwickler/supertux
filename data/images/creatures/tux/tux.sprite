@@ -503,7 +503,121 @@
          (fps 20.0)
          (loops 1)
          (mirror-action "big-buttjump-right"))
+; Storm Tux
 
+       (action
+         (name "storm-walk-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (clone-action "big-walk-right"))
+
+       (action
+         (name "storm-walk-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "big-walk-right"))
+
+       (action
+         (name "storm-stand-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (clone-action "big-stand-right"))
+
+       (action
+         (name "storm-stand-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "big-stand-right"))
+
+       (action
+         (name "storm-jump-right")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (clone-action "big-jump-right"))
+
+       (action
+         (name "storm-jump-left")
+         (fps 15.0)
+         (hitbox 16 14 32 64)
+         (mirror-action "big-jump-right"))
+
+       (action
+         (name "storm-skid-right")
+         (hitbox 16 14 32 64)
+         (clone-action "big-skid-right"))
+
+       (action
+         (name "storm-skid-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "big-skid-right"))
+
+       (action
+         (name "storm-kick-right")
+         (hitbox 16 14 32 64)
+         (clone-action "big-kick-right"))
+
+       (action
+         (name "storm-kick-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "big-kick-right"))
+
+       (action
+         (name "storm-idle-right")
+         (fps 5.0)
+         (hitbox 16 14 32 64)
+         (clone-action "big-idle-right"))
+
+       (action
+         (name "storm-idle-left")
+         (hitbox 16 14 32 64)
+         (mirror-action "big-idle-right"))
+
+       (action
+         (name "storm-climbing-right")
+         (fps 15.0)
+         (hitbox 9 14 25 64)
+         (clone-action "big-climbing-right"))
+
+       (action
+         (name "storm-climbing-left")
+         (fps 15.0)
+         (hitbox 9 14 25 64)
+         (mirror-action "big-climbing-right"))
+
+       (action
+         (name "storm-duck-right")
+         (hitbox 16 45 32 32)
+         (clone-action "big-duck-right"))
+
+       (action
+         (name "storm-duck-left")
+         (hitbox 16 45 32 32)
+         (mirror-action "big-duck-right"))
+
+       (action
+         (name "storm-backflip-right")
+         (hitbox 16 37 32 32)
+         (clone-action "big-backflip-right"))
+
+       (action
+         (name "storm-backflip-left")
+         (hitbox 16 37 32 32)
+         (fps 18.0)
+         (mirror-action "big-backflip-right"))
+
+       (action
+         (name "storm-buttjump-right")
+         (hitbox 16 14 32 46)
+         (fps 20.0)
+         (loops 1)
+         (clone-action "big-buttjump-right"))
+
+       (action
+         (name "storm-buttjump-left")
+         (hitbox 16 14 32 46)
+         (fps 20.0)
+         (loops 1)
+         (mirror-action "big-buttjump-right"))
 ; Earth Tux
 
        (action
